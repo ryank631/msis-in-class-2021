@@ -1,9 +1,14 @@
 FROM php:7.4-apache
 
-LABEL maintainer="Tom Gregory"
+LABEL maintainer="Ryan Kaufman"
 
-#Set the working directory in the image
-WORKDIR /var/www/html
+RUN docker-php-ext-install pdo_mysql
 
-#Copy our public folder to the working directory
-COPY public .
+WORKDIR /app/serv
+
+COPY app /srv/app
+
+COPY docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
+
+# PHP configuration
+COPY docker/php/php.ini /usr/local/etc/php/php.ini
